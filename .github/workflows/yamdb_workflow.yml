@@ -1,4 +1,4 @@
-name: Django app yamdb_final worlflow
+name: API_YAMDB FINAL
 on: [push]
 jobs:
 
