@@ -35,6 +35,7 @@ jobs:
         uses: docker/build-push-action@v2
         with:
           context: api_yamdb/
+          file: api_yamdb/Docerfile1
           push: true
           tags: fakafakayeah/api_yamdb:latest
 
