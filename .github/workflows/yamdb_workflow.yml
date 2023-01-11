@@ -76,14 +76,15 @@ jobs:
         sudo docker compose up -d
         sudo docker compose exec web python manage.py migrate
         sudo docker compose exec web python manage.py collectstatic --no-input
-        if: ${{ failure() }}
-        uses: appleboy/telegram-action@master
-        with:
-          to: ${{ secrets.TELEGRAM_TO }}
-          token: ${{ secrets.TELEGRAM_TOKEN }}
-          message: |
-            Ошибка деплоя на сервер  - ${{ secrets.HOST }}
-            https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        - name: send_message if deploy failed
+          if: ${{ failure() }}
+          uses: appleboy/telegram-action@master
+          with:
+            to: ${{ secrets.TELEGRAM_TO }}
+            token: ${{ secrets.TELEGRAM_TOKEN }}
+            message: |
+              Ошибка деплоя на сервер  - ${{ secrets.HOST }}
+              https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}
 
   send_message:
     runs-on: ubuntu-latest
