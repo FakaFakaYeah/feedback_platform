@@ -76,8 +76,8 @@ jobs:
         sudo docker compose up -d
         sudo docker compose exec web python manage.py migrate
         sudo docker compose exec web python manage.py collectstatic --no-input
-    if: ${{ failure() }}
     - name: send_message if deploy failed
+      if: ${{ failure() }}
       uses: appleboy/telegram-action@master
       with:
         to: ${{ secrets.TELEGRAM_TO }}
@@ -102,7 +102,6 @@ jobs:
           Причина: ${{ github.event.commits[0].message }}
           https://github.com/${{ github.repository }}/commit/${{github.sha}}
     - name: send_message on Discord if telegram failed
-      if: ${{ failure() }}
       uses: sarisia/actions-status-discord@v1
       with:
         webhook: ${{ secrets.DISCORD_WEBHOOK }}
