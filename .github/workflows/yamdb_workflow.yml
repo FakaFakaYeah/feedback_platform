@@ -37,6 +37,17 @@ jobs:
         context: api_yamdb/
         push: true
         tags: ${{ secrets.DOCKER_USERNAME }}/api_yamdb:latest
+    - name: send_message if build and push failed
+      if: ${{ failure() }}
+      uses: appleboy/telegram-action@master
+      with:
+        to: ${{ secrets.TELEGRAM_TO }}
+        token: ${{ secrets.TELEGRAM_TOKEN }}
+        message: |
+          Ошибка при сборке/отправке образа на DockerHub  - ${{ github.repository }}
+          https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}
+
+
 
   deploy:
     runs-on: ubuntu-latest
@@ -65,6 +76,14 @@ jobs:
         sudo docker compose up -d
         sudo docker compose exec web python manage.py migrate
         sudo docker compose exec web python manage.py collectstatic --no-input
+        if: ${{ failure() }}
+        uses: appleboy/telegram-action@master
+        with:
+          to: ${{ secrets.TELEGRAM_TO }}
+          token: ${{ secrets.TELEGRAM_TOKEN }}
+          message: |
+            Ошибка деплоя на сервер  - ${{ secrets.HOST }}
+            https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}
 
   send_message:
     runs-on: ubuntu-latest
@@ -75,4 +94,7 @@ jobs:
       with:
         to: ${{ secrets.TELEGRAM_TO }}
         token: ${{ secrets.TELEGRAM_TOKEN }}
-        message: ${{ github.workflow }} успешно выполнен!
+        message: |
+          ${{ github.workflow }} успешно выполнен пользователем ${{ github.author }}!
+          Причина: ${{ github.event.commits[0].message }}
+          https://github.com/${{ github.repository }}/commit/${{github.sha}}
