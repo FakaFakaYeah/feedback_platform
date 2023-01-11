@@ -91,12 +91,12 @@ jobs:
     if: ${{ always() }}
     needs: [tests, deploy]
     steps:
-    - name: send message
-      uses: appleboy/telegram-action@master
-      with:
-        to: ${{ secrets.TELEGRAM_TO }}
-        token: ${{ secrets.TELEGRAM_TOKEN }}
-        message: |
-          ${{ github.workflow }} успешно выполнен пользователем ${{ github.actor }}!
+    - name: Discord notification
+      env:
+      DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
+    uses: Ilshidur/action-discord@master
+    with:
+     args: |
+       ${{ github.workflow }} успешно выполнен пользователем ${{ github.actor }}!
           Причина: ${{ github.event.commits[0].message }}
           https://github.com/${{ github.repository }}/commit/${{github.sha}}
