@@ -25,7 +25,6 @@ jobs:
         message: |
           Ошибка при прохождении тестов!
           https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}
-    - name: send_message on Discord
       uses: sarisia/actions-status-discord@v1
       with:
         webhook: ${{ secrets.DISCORD_WEBHOOK }}
@@ -64,7 +63,6 @@ jobs:
         message: |
           Ошибка при сборке/отправке образа на DockerHub  - ${{ github.repository }}
           https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}
-    - name: send_message on Discord
       uses: sarisia/actions-status-discord@v1
       with:
         webhook: ${{ secrets.DISCORD_WEBHOOK }}
@@ -110,7 +108,6 @@ jobs:
         message: |
           Ошибка деплоя на сервер  - ${{ secrets.HOST }}
           https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}
-    - name: send_message on Discord
       uses: sarisia/actions-status-discord@v1
       with:
         webhook: ${{ secrets.DISCORD_WEBHOOK }}
@@ -123,7 +120,7 @@ jobs:
     if: ${{ always() }}
     needs: [tests, deploy]
     steps:
-    - name: send message on telegram
+    - name: send message on telegram and Discord
       uses: appleboy/telegram-action@master
       with:
         to: ${{ secrets.TELEGRAM_TO }}
@@ -132,7 +129,6 @@ jobs:
           ${{ github.workflow }} успешно выполнен пользователем ${{ github.actor }}!
           Причина: ${{ github.event.commits[0].message }}
           https://github.com/${{ github.repository }}/commit/${{github.sha}}
-    - name: send_message on Discord
       uses: sarisia/actions-status-discord@v1
       with:
         webhook: ${{ secrets.DISCORD_WEBHOOK }}
