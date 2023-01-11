@@ -134,7 +134,7 @@ jobs:
           ${{ github.workflow }} успешно выполнен пользователем ${{ github.actor }}!
           Причина: ${{ github.event.commits[0].message }}
           https://github.com/${{ github.repository }}/commit/${{ github.sha }}
-    - name: send message on Discord
+    - name: send message on Discord if telegram failed
       if: ${{ failure() }}
       uses: sarisia/actions-status-discord@v1
       with:
