@@ -122,8 +122,8 @@ jobs:
 
   send_message:
     runs-on: ubuntu-latest
-    if: ${{ always() }}
-    needs: [tests, deploy]
+    if: ${{ success() }}
+    needs: [tests, build_and_push_to_docker_hub, deploy]
     steps:
     - name: send message on telegram
       uses: appleboy/telegram-action@master
