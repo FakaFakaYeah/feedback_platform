@@ -91,12 +91,10 @@ jobs:
     if: ${{ always() }}
     needs: [tests, deploy]
     steps:
-    - name: Discord notification
-      env:
-      DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
-    uses: Ilshidur/action-discord@master
+    - uses: sarisia/actions-status-discord@v1
     with:
-     args: |
-       ${{ github.workflow }} успешно выполнен пользователем ${{ github.actor }}!
-          Причина: ${{ github.event.commits[0].message }}
-          https://github.com/${{ github.repository }}/commit/${{github.sha}}
+      webhook: ${{ secrets.DISCORD_WEBHOOK }}
+      description: |
+        ${{ github.workflow }} успешно выполнен пользователем ${{ github.actor }}!
+        Причина: ${{ github.event.commits[0].message }}
+        https://github.com/${{ github.repository }}/commit/${{github.sha}}
