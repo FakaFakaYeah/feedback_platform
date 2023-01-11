@@ -1,5 +1,6 @@
 from rest_framework.permissions import (SAFE_METHODS, BasePermission,
                                         IsAuthenticatedOrReadOnly)
+
 from reviews.models import User
 
 
