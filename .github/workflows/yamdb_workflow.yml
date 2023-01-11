@@ -20,6 +20,7 @@ jobs:
     name: Push Docker image to Docker Hub
     runs-on: ubuntu-latest
     needs: tests
+    if github.ref == 'refs/heads/master' || github.ref == 'refs/heads/main'
     steps:
     - name: Check out the repo
       uses: actions/checkout@v2
@@ -35,11 +36,12 @@ jobs:
       with:
         context: api_yamdb/
         push: true
-        tags: fakafakayeah/api_yamdb:latest
+        tags: ${{ secrets.DOCKER_USERNAME }}/api_yamdb:latest
 
   deploy:
     runs-on: ubuntu-latest
     needs: build_and_push_to_docker_hub
+    if github.ref == 'refs/heads/master' || github.ref == 'refs/heads/main'
     steps:
     - name: executing remote ssh commands to deploy
       uses: appleboy/ssh-action@master
@@ -52,6 +54,7 @@ jobs:
         cd api_yamdb
         sudo docker compose stop
         sudo docker compose rm web
+        sudo docker pull ${{ secrets.DOCKER_USERNAME }}/api_yamdb:latest
         touch .env
         echo DB_ENGINE=${{ secrets.DB_ENGINE }} >> .env
         echo DB_NAME=${{ secrets.DB_NAME }} >> .env
