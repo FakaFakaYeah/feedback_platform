@@ -140,4 +140,4 @@ jobs:
         webhook: ${{ secrets.DISCORD_WEBHOOK }}
         description: |
           Не удалось отправить сообщение о результате workflow в Телеграм.
-          https://github.com/${{ github.repository }}/commit/${{github.sha}}
+          https://github.com/${{ github.repository }}/actions/runs/${{ github.run.id }}
