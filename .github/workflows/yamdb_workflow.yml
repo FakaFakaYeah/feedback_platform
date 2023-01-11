@@ -92,9 +92,9 @@ jobs:
     needs: [tests, deploy]
     steps:
     - uses: sarisia/actions-status-discord@v1
-    with:
-      webhook: ${{ secrets.DISCORD_WEBHOOK }}
-      description: |
-        ${{ github.workflow }} успешно выполнен пользователем ${{ github.actor }}!
-        Причина: ${{ github.event.commits[0].message }}
-        https://github.com/${{ github.repository }}/commit/${{github.sha}}
+      with:
+        webhook: ${{ secrets.DISCORD_WEBHOOK }}
+        description: |
+          ${{ github.workflow }} успешно выполнен пользователем ${{ github.actor }}!
+          Причина: ${{ github.event.commits[0].message }}
+          https://github.com/${{ github.repository }}/commit/${{github.sha}}
