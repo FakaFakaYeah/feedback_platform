@@ -25,14 +25,14 @@ jobs:
         message: |
           Ошибка при прохождении тестов!
           https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}
-    - name: send message on Discord
+    - name: send message on Discord if telegram failed
       if: ${{ failure() }}
       uses: sarisia/actions-status-discord@v1
       with:
         webhook: ${{ secrets.DISCORD_WEBHOOK }}
         description: |
           Не удалось отправить сообщение о результате workflow в Телеграм.
-          https://github.com/${{ github.repository }}/commit/${{github.sha}}
+          https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}
 
   build_and_push_to_docker_hub:
     name: Push Docker image to Docker Hub
@@ -71,7 +71,7 @@ jobs:
         webhook: ${{ secrets.DISCORD_WEBHOOK }}
         description: |
           Не удалось отправить сообщение о результате workflow в Телеграм.
-          https://github.com/${{ github.repository }}/commit/${{github.sha}}
+          https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}
 
 
   deploy:
@@ -110,14 +110,14 @@ jobs:
         message: |
           Ошибка деплоя на сервер  - ${{ secrets.HOST }}
           https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}
-    - name: send message on Discord
+    - name: send message on Discord if telegram failed
       if: ${{ failure() }}
       uses: sarisia/actions-status-discord@v1
       with:
         webhook: ${{ secrets.DISCORD_WEBHOOK }}
         description: |
           Не удалось отправить сообщение о результате workflow в Телеграм.
-          https://github.com/${{ github.repository }}/commit/${{github.sha}}
+          https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}
 
   send_message:
     runs-on: ubuntu-latest
