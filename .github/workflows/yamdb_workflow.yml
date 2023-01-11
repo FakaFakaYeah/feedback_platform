@@ -16,6 +16,24 @@ jobs:
         pip install flake8 pep8-naming flake8-broken-line flake8-return
         pip install -r api_yamdb/requirements.txt
         python -m flake8
+    - name: send_message if tests failed
+      if: ${{ failure() }}
+      uses: appleboy/telegram-action@master
+      with:
+        to: ${{ secrets.TELEGRAM_TO }}
+        token: ${{ secrets.TELEGRAM_TOKEN }}
+        message: |
+          Ошибка при прохождении тестов!
+          https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}
+    - name: send_message on Discord
+      uses: sarisia/actions-status-discord@v1
+      with:
+        webhook: ${{ secrets.DISCORD_WEBHOOK }}
+        description: |
+          Ошибка при прохождении тестов!
+          https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}
+
+
   build_and_push_to_docker_hub:
     name: Push Docker image to Docker Hub
     runs-on: ubuntu-latest
@@ -44,6 +62,13 @@ jobs:
         to: ${{ secrets.TELEGRAM_TO }}
         token: ${{ secrets.TELEGRAM_TOKEN }}
         message: |
+          Ошибка при сборке/отправке образа на DockerHub  - ${{ github.repository }}
+          https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}
+    - name: send_message on Discord
+      uses: sarisia/actions-status-discord@v1
+      with:
+        webhook: ${{ secrets.DISCORD_WEBHOOK }}
+        description: |
           Ошибка при сборке/отправке образа на DockerHub  - ${{ github.repository }}
           https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}
 
@@ -85,6 +110,13 @@ jobs:
         message: |
           Ошибка деплоя на сервер  - ${{ secrets.HOST }}
           https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}
+    - name: send_message on Discord
+      uses: sarisia/actions-status-discord@v1
+      with:
+        webhook: ${{ secrets.DISCORD_WEBHOOK }}
+        description: |
+          Ошибка деплоя на сервер  - ${{ secrets.HOST }}
+          https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}
 
   send_message:
     runs-on: ubuntu-latest
@@ -97,11 +129,10 @@ jobs:
         to: ${{ secrets.TELEGRAM_TO }}
         token: ${{ secrets.TELEGRAM_TOKEN }}
         message: |
-          description: |
           ${{ github.workflow }} успешно выполнен пользователем ${{ github.actor }}!
           Причина: ${{ github.event.commits[0].message }}
           https://github.com/${{ github.repository }}/commit/${{github.sha}}
-    - name: send_message on Discord if telegram failed
+    - name: send_message on Discord
       uses: sarisia/actions-status-discord@v1
       with:
         webhook: ${{ secrets.DISCORD_WEBHOOK }}
