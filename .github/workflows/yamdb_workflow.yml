@@ -16,12 +16,6 @@ jobs:
         pip install flake8 pep8-naming flake8-broken-line flake8-return
         pip install -r api_yamdb/requirements.txt
         python -m flake8
-
-on:
-  push:
-    branches: [master]
-jobs:
-
   build_and_push_to_docker_hub:
     name: Push Docker image to Docker Hub
     runs-on: ubuntu-latest
