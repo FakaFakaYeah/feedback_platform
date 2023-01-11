@@ -91,7 +91,19 @@ jobs:
     if: ${{ always() }}
     needs: [tests, deploy]
     steps:
-    - uses: sarisia/actions-status-discord@v1
+    - name: send message on telegram
+      uses: appleboy/telegram-action@master
+      with:
+        to: ${{ secrets.TELEGRAM_TO }}
+        token: ${{ secrets.TELEGRAM_TOKEN }}
+        message: |
+          description: |
+          ${{ github.workflow }} успешно выполнен пользователем ${{ github.actor }}!
+          Причина: ${{ github.event.commits[0].message }}
+          https://github.com/${{ github.repository }}/commit/${{github.sha}}
+    - name: send_message on Discord if telegram failed
+      if: ${{ failure() }}
+      uses: sarisia/actions-status-discord@v1
       with:
         webhook: ${{ secrets.DISCORD_WEBHOOK }}
         description: |
