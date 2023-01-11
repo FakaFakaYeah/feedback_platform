@@ -96,6 +96,6 @@ jobs:
         to: ${{ secrets.TELEGRAM_TO }}
         token: ${{ secrets.TELEGRAM_TOKEN }}
         message: |
-          ${{ github.workflow }} успешно выполнен пользователем ${{ github.author }}!
+          ${{ github.workflow }} успешно выполнен пользователем ${{ github.actor }}!
           Причина: ${{ github.event.commits[0].message }}
           https://github.com/${{ github.repository }}/commit/${{github.sha}}
