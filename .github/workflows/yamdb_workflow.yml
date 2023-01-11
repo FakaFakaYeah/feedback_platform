@@ -64,7 +64,7 @@ jobs:
         message: |
           Ошибка при сборке/отправке образа на DockerHub  - ${{ github.repository }}
           https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}
-    - name: send message on Discord
+    - name: send message on Discord if telegram failed
       if: ${{ failure() }}
       uses: sarisia/actions-status-discord@v1
       with:
@@ -132,7 +132,7 @@ jobs:
         message: |
           ${{ github.workflow }} успешно выполнен пользователем ${{ github.actor }}!
           Причина: ${{ github.event.commits[0].message }}
-          https://github.com/${{ github.repository }}/commit/${{github.sha}}
+          https://github.com/${{ github.repository }}/commit/${{ github.sha }}
     - name: send message on Discord
       if: ${{ failure() }}
       uses: sarisia/actions-status-discord@v1
@@ -140,4 +140,4 @@ jobs:
         webhook: ${{ secrets.DISCORD_WEBHOOK }}
         description: |
           Не удалось отправить сообщение о результате workflow в Телеграм.
-          https://github.com/${{ github.repository }}/actions/runs/${{ github.run.id }}
+          https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}
