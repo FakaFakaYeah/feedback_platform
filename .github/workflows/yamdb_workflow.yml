@@ -16,6 +16,7 @@ jobs:
         pip install flake8 pep8-naming flake8-broken-line flake8-return
         pip install -r api_yamdb/requirements.txt
         python -m flake8
+        pytest
     - name: send_message if tests failed
       if: ${{ failure() }}
       uses: appleboy/telegram-action@master

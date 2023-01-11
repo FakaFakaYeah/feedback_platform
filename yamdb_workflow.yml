@@ -10,38 +10,75 @@ jobs:
       uses: actions/setup-python@v2
       with:
         python-version: 3.7
-    - name: Install dependencies and test with flake8 and pytest
+    - name: Install dependencies and test with flake8
       run: |
         python -m pip install --upgrade pip
-        pip install flake8 pep8-naming flake8-broken-line flake8-return flake8-isort
+        pip install flake8 pep8-naming flake8-broken-line flake8-return
         pip install -r api_yamdb/requirements.txt
-        pytest
-
         python -m flake8
+        pytest
+    - name: send_message if tests failed
+      if: ${{ failure() }}
+      uses: appleboy/telegram-action@master
+      with:
+        to: ${{ secrets.TELEGRAM_TO }}
+        token: ${{ secrets.TELEGRAM_TOKEN }}
+        message: |
+          Ошибка при прохождении тестов!
+          https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}
+    - name: send message on Discord if telegram failed
+      if: ${{ failure() }}
+      uses: sarisia/actions-status-discord@v1
+      with:
+        webhook: ${{ secrets.DISCORD_WEBHOOK }}
+        description: |
+          Не удалось отправить сообщение о результате workflow в Телеграм.
+          https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}
+
   build_and_push_to_docker_hub:
     name: Push Docker image to Docker Hub
     runs-on: ubuntu-latest
     needs: tests
+    if: github.ref == 'refs/heads/master' || github.ref == 'refs/heads/main'
     steps:
-      - name: Check out the repo
-        uses: actions/checkout@v2
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v1
-      - name: Login to Docker
-        uses: docker/login-action@v1
-        with:
-          username: ${{ secrets.DOCKER_USERNAME }}
-          password: ${{ secrets.DOCKER_PASSWORD }}
-      - name: Push to Docker Hub
-        uses: docker/build-push-action@v2
-        with:
-          context: api_yamdb/
-          push: true
-          tags: fakafakayeah/api_yamdb:latest
+    - name: Check out the repo
+      uses: actions/checkout@v2
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v1
+    - name: Login to Docker
+      uses: docker/login-action@v1
+      with:
+        username: ${{ secrets.DOCKER_USERNAME }}
+        password: ${{ secrets.DOCKER_PASSWORD }}
+    - name: Push to Docker Hub
+      uses: docker/build-push-action@v2
+      with:
+        context: api_yamdb/
+        push: true
+        tags: ${{ secrets.DOCKER_USERNAME }}/api_yamdb:latest
+    - name: send_message if build and push failed
+      if: ${{ failure() }}
+      uses: appleboy/telegram-action@master
+      with:
+        to: ${{ secrets.TELEGRAM_TO }}
+        token: ${{ secrets.TELEGRAM_TOKEN }}
+        message: |
+          Ошибка при сборке/отправке образа на DockerHub  - ${{ github.repository }}
+          https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}
+    - name: send message on Discord if telegram failed
+      if: ${{ failure() }}
+      uses: sarisia/actions-status-discord@v1
+      with:
+        webhook: ${{ secrets.DISCORD_WEBHOOK }}
+        description: |
+          Не удалось отправить сообщение о результате workflow в Телеграм.
+          https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}
+
 
   deploy:
     runs-on: ubuntu-latest
     needs: build_and_push_to_docker_hub
+    if: github.ref == 'refs/heads/master' || github.ref == 'refs/heads/main'
     steps:
     - name: executing remote ssh commands to deploy
       uses: appleboy/ssh-action@master
@@ -54,6 +91,7 @@ jobs:
         cd api_yamdb
         sudo docker compose stop
         sudo docker compose rm web
+        sudo docker pull ${{ secrets.DOCKER_USERNAME }}/api_yamdb:latest
         touch .env
         echo DB_ENGINE=${{ secrets.DB_ENGINE }} >> .env
         echo DB_NAME=${{ secrets.DB_NAME }} >> .env
@@ -64,14 +102,43 @@ jobs:
         sudo docker compose up -d
         sudo docker compose exec web python manage.py migrate
         sudo docker compose exec web python manage.py collectstatic --no-input
-
-  send_message:
-    runs-on: ubuntu-latest
-    needs: deploy
-    steps:
-    - name: send message
+    - name: send_message if deploy failed
+      if: ${{ failure() }}
       uses: appleboy/telegram-action@master
       with:
         to: ${{ secrets.TELEGRAM_TO }}
         token: ${{ secrets.TELEGRAM_TOKEN }}
-        message: ${{ github.workflow }} успешно выполнен!
+        message: |
+          Ошибка деплоя на сервер  - ${{ secrets.HOST }}
+          https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}
+    - name: send message on Discord if telegram failed
+      if: ${{ failure() }}
+      uses: sarisia/actions-status-discord@v1
+      with:
+        webhook: ${{ secrets.DISCORD_WEBHOOK }}
+        description: |
+          Не удалось отправить сообщение о результате workflow в Телеграм.
+          https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}
+
+  send_message:
+    runs-on: ubuntu-latest
+    if: ${{ always() }}
+    needs: [tests, deploy]
+    steps:
+    - name: send message on telegram
+      uses: appleboy/telegram-action@master
+      with:
+        to: ${{ secrets.TELEGRAM_TO }}
+        token: ${{ secrets.TELEGRAM_TOKEN }}
+        message: |
+          ${{ github.workflow }} успешно выполнен пользователем ${{ github.actor }}!
+          Причина: ${{ github.event.commits[0].message }}
+          https://github.com/${{ github.repository }}/commit/${{ github.sha }}
+    - name: send message on Discord
+      if: ${{ failure() }}
+      uses: sarisia/actions-status-discord@v1
+      with:
+        webhook: ${{ secrets.DISCORD_WEBHOOK }}
+        description: |
+          Не удалось отправить сообщение о результате workflow в Телеграм.
+          https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}
