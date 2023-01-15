@@ -4,6 +4,7 @@ API предназначено для регистрации произведе�
 ## **Статус workflow**
 ![](https://github.com/FakaFakaYeah/yamdb_final/actions/workflows/yamdb_workflow.yml/badge.svg)
 
+
 ## **Используемые технологии**
 ![](https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white)
 ![](https://img.shields.io/badge/Django-092E20?style=for-the-badge&logo=django&logoColor=green)
