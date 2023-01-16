@@ -28,14 +28,11 @@ class CommentAdmin(admin.ModelAdmin):
 class CustomUser(UserAdmin):
     fieldsets = (
         *UserAdmin.fieldsets,
-        (
-            'Custom Field Heading',
-            {
-                'fields': (
-                    'bio', 'role'
-                ),
-            },
-        ),
+        {
+            'fields': (
+                'bio', 'role'
+            ),
+        },
     )
 
 
