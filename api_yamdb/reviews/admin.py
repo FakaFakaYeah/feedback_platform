@@ -26,7 +26,7 @@ class CommentAdmin(admin.ModelAdmin):
 
 
 class CustomUser(UserAdmin):
-    pass
+    add_fieldsets = ('bio', 'role')
 
 
 admin.site.register(Title, TitlesAdmin)
