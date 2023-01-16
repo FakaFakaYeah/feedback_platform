@@ -1,4 +1,5 @@
 from django.contrib import admin
+from django.contrib.auth.admin import UserAdmin
 
 from .models import Category, Comment, Genre, Review, Title, User
 
@@ -24,9 +25,13 @@ class CommentAdmin(admin.ModelAdmin):
     list_filter = ('author', 'pub_date', 'review')
 
 
+class CustomUser(UserAdmin):
+    pass
+
+
 admin.site.register(Title, TitlesAdmin)
 admin.site.register(Category)
 admin.site.register(Genre)
-admin.site.register(User)
+admin.site.register(User, CustomUser)
 admin.site.register(Review, ReviewAdmin)
 admin.site.register(Comment, CommentAdmin)
