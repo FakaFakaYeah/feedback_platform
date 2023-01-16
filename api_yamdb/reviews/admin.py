@@ -39,6 +39,7 @@ class CustomUser(UserAdmin):
     )
 
 
+
 admin.site.register(Title, TitlesAdmin)
 admin.site.register(Category)
 admin.site.register(Genre)
