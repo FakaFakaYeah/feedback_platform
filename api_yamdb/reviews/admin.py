@@ -27,13 +27,8 @@ class CommentAdmin(admin.ModelAdmin):
 
 class CustomUser(UserAdmin):
     fieldsets = (
-        (None, {'fields': ('username', 'password')}),
-        ('Personal info',
-         {'fields': ('first_name', 'last_name', 'email', 'bio', 'role')}),
-        ('Permissions',
-         {'fields': ('is_active', 'is_staff', 'is_superuser')}),
-        ('Important dates',
-         {'fields': ('last_login', 'date_joined')})
+        *UserAdmin.fieldsets,
+        ('Параметры пользователя', {'fields': ('bio', 'role')}),
     )
 
 
