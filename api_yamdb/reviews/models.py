@@ -57,7 +57,8 @@ class User(AbstractUser):
     )
     bio = models.TextField(
         null=True,
-        blank=True
+        blank=True,
+        verbose_name='Биография'
     )
     email = models.EmailField(
         max_length=254,
@@ -65,7 +66,8 @@ class User(AbstractUser):
     )
     role = models.TextField(
         choices=ROLES,
-        default=USER
+        default=USER,
+        verbose_name='Роль пользователя'
     )
 
 
