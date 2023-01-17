@@ -27,7 +27,7 @@ class CommentAdmin(admin.ModelAdmin):
 
 class CustomUser(UserAdmin):
     fieldsets = (
-        *UserAdmin.fieldsets,
+        UserAdmin.fieldsets,
         ('Параметры пользователя', {'fields': ('bio', 'role')}),
     )
     exclude = ('groups', 'user_permissions')
