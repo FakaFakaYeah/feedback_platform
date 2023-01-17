@@ -27,10 +27,14 @@ class CommentAdmin(admin.ModelAdmin):
 
 class CustomUser(UserAdmin):
     fieldsets = (
-        UserAdmin.fieldsets,
-        ('Параметры пользователя', {'fields': ('bio', 'role')}),
+        (None, {'fields': ('username', 'password')}),
+        ('Personal info',
+         {'fields': ('first_name', 'last_name', 'email')}),
+        ('Permissions',
+         {'fields': ('is_active', 'is_staff', 'is_superuser')}),
+        ('Important dates',
+         {'fields': ('last_login', 'date_joined')})
     )
-    exclude = ('groups', 'user_permissions')
 
 
 admin.site.register(Title, TitlesAdmin)
