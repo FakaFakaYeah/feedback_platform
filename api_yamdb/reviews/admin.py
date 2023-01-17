@@ -28,15 +28,9 @@ class CommentAdmin(admin.ModelAdmin):
 class CustomUser(UserAdmin):
     fieldsets = (
         *UserAdmin.fieldsets,
-        (
-            'Параметры пользователя',
-            {
-                'fields': (
-                    'bio', 'role'
-                ),
-            },
-        ),
+        ('Параметры пользователя', {'fields': ('bio', 'role')}),
     )
+    exclude = ('groups', 'user_permissions')
 
 
 admin.site.register(Title, TitlesAdmin)
