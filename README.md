@@ -1,6 +1,8 @@
 ## **feedback_platform**
 API предназначено для регистрации произведений, их оценки и комментариев
 
+## **Статус workflow**
+![](https://github.com/FakaFakaYeah/feedback_platform/actions/workflows/yamdb_workflow.yml/badge.svg)
 
 ## **Используемые технологии**
 ![](https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white)
