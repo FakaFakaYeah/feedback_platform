@@ -1,4 +1,4 @@
-name: API_YAMDB FINAL
+name: feedback_platform
 on: [push]
 jobs:
 

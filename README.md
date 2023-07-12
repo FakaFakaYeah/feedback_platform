@@ -1,8 +1,8 @@
-## **api_yamdb**
+## **feedback_platform**
 API предназначено для регистрации произведений, их оценки и комментариев
 
 ## **Статус workflow**
-![](https://github.com/FakaFakaYeah/yamdb_final/actions/workflows/yamdb_workflow.yml/badge.svg)
+![](https://github.com/FakaFakaYeah/feedback_platform/actions/workflows/yamdb_workflow.yml/badge.svg)
 
 ## **Используемые технологии**
 ![](https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white)
@@ -23,7 +23,7 @@ http://51.250.101.39/redoc/ - документация, примеры запр�
 ## **Как развернуть проект локально?**
 Запустите терминал и клонируйте репозиторий 
 ```
-https://github.com/FakaFakaYeah/yamdb_final.git
+https://github.com/FakaFakaYeah/feedback_platform.git
 ```
 Создайте .env файл и заполните его
 
