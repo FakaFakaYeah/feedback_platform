@@ -1,7 +1,5 @@
 # Feedback Platform
 
-Фронтенд дипломной работы на курсе веб-разработки Яндекс Практикум.
-
 
 ![](https://github.com/FakaFakaYeah/feedback_platform/actions/workflows/yamdb_workflow.yml/badge.svg)
 
