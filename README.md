@@ -1,4 +1,4 @@
-# **Feedback Platform**
+# **Сервис для оценки и комментирование различных произведений**
 
 
 ![](https://github.com/FakaFakaYeah/feedback_platform/actions/workflows/yamdb_workflow.yml/badge.svg)
