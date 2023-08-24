@@ -76,6 +76,10 @@ ___
     docker-compose exec web python manage.py migrate
     ```
 
+* Выполните сбор статики проекта по следующей команде:
+    ```
+    docker-compose exec web python manage.py collectstatic --no-input
+    ```
 ___ 
 
 ### Создание суперпользователя<a name="superuser"></a>
