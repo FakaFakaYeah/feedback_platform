@@ -1,8 +1,5 @@
 import os
 from datetime import timedelta
-from dotenv import load_dotenv
-
-load_dotenv()
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -59,7 +56,9 @@ TEMPLATES = [
 WSGI_APPLICATION = 'api_yamdb.wsgi.application'
 
 
-if os.getenv("USE_POSTGRESQL", False) is True:
+DATABASE = os.getenv("USE_POSTGRESQL") == 'True'
+
+if os.getenv("USE_POSTGRESQL") is True:
     DATABASES = {
         'default': {
             'ENGINE': os.getenv('DB_ENGINE', 'django.db.backends.postgresql'),
