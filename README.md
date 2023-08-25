@@ -8,10 +8,9 @@
  <li><a href="#description">Описание проекта</a></li>
  <li><a href="#stack">Используемые технологии</a></li>
  <li><a href="#architecture">Архитектура проекта</a></li>
+ <li><a href="#docker">Как запустить проект в Docker?</a></li>
  <li><a href="#start_project">Как развернуть проект локально?</a></li>
- <li><a href="#superuser">Создание суперпользователя</a></li>
  <li><a href="#load_data">Заполнение базы начальными данными</a></li>
- <li><a href="#url">Ссылки проекта</a></li>
  <li><a href="#workflow">Workflow</a></li>
  <li><a href="#author">Авторы проекта</a></li>
 </ol>
