@@ -14,7 +14,7 @@ jobs:
       run: |
         python -m pip install --upgrade pip
         pip install flake8 pep8-naming flake8-broken-line flake8-return
-        pip install -r api_yamdb/requirements.txt
+        pip install -r requirements.txt
         python -m flake8
         pytest
     - name: send_message if tests failed
