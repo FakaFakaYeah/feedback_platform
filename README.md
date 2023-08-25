@@ -97,7 +97,7 @@ ___
 ### Как развернуть проект локально?<a name="start_project"></a>
 * Запустите терминал и клонируйте репозиторий 
   ```
-  git clone https://github.com/FakaFakaYeah/BlogPost.git
+  git clone https://github.com/FakaFakaYeah/feedback_platform.git
   ```
 
 * Создайте и активируйте виртуальное окружение
