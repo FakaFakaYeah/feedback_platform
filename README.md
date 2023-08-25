@@ -19,6 +19,7 @@
 ---
 ### Описание проекта:<a name="description"></a>
 Открытое API для просмотра произведений, их оценки и комментариев.
+API запросы можно протестировать через приложение Postman, которое можно скачать по ссылке: https://www.postman.com/downloads/
 
 ---
 ### Используемые технологии<a name="stack"></a>
@@ -40,23 +41,24 @@ ___
 
 ___
 
-
-
-### Как развернуть проект локально?<a name="start_project"></a>
+### Как запустить проект в Docker?<a name="docker"></a>
 * Запустите терминал и клонируйте репозиторий 
     ```
     git clone https://github.com/FakaFakaYeah/feedback_platform.git
     ```
-* Создайте .env файл и заполните его
-
-    ```
-    DB_ENGINE=django.db.backends.postgresql   указываем, что работаем с postgresql
-    DB_NAME=   имя базы данных
-    POSTGRES_USER=   логин для подключения к базе данных
-    POSTGRES_PASSWORD=   пароль для подключения к БД (установите свой)
-    DB_HOST=db   название сервиса (контейнера)
-    DB_PORT=  порт для подключения к БД
-    ```
+    
+* Создайте .env файл и заполните его по шаблону
+  ```
+  USE_POSTGRESQL=True # Если флаг стоит False, будет использована sqlite3
+  SECRET_KEY=  #укажите свой SECRET_KEY
+  DB_ENGINE=django.db.backends.postgresql # указываем, что работаем с postgresql
+  DB_NAME=  # имя базы данных
+  POSTGRES_USER=  # логин для подключения к базе данных
+  POSTGRES_PASSWORD=  # пароль для подключения к БД (установите свой)
+  DB_HOST=   # название сервиса (контейнера)
+  DB_PORT=   # порт для подключения к БД
+  ```
+  
 * Установите Docker по ссылке https://www.docker.com/products/docker-desktop
 
 * Перейдите в директорию с Docker-compose.yaml
@@ -67,26 +69,90 @@ ___
 * Выполните команду по разворачиванию docker-compose
     ```
     docker-compose up -d
-    ```
-
+    ``` 
+  
 * Будет проведена сборка образа по Dockerfile и запуск проекта в трех контейнерах
 
 * Выполните миграции по следующей команде:
     ```
     docker-compose exec web python manage.py migrate
     ```
-
 * Выполните сбор статики проекта по следующей команде:
     ```
     docker-compose exec web python manage.py collectstatic --no-input
     ```
-___ 
+* Cоздайте суперпользователя
+  ```
+  docker-compose exec web python manage.py createsuperuser
+  ```
+  укажите имя пользователя, почту и пароль
+  
+* Проект будет доступен по следующим адресам:
+  ```
+  http://localhost/redoc/ - документация со всеми эндпоинтами
+  http://localhost/admin/ - админ зона
+  ```
+___
 
-### Создание суперпользователя<a name="superuser"></a>
-    ```
-    docker-compose exec web python manage.py createsuperuser
-    ```
-* Укажите имя пользователя, пароль и почту
+
+### Как развернуть проект локально?<a name="start_project"></a>
+* Запустите терминал и клонируйте репозиторий 
+  ```
+  git clone https://github.com/FakaFakaYeah/BlogPost.git
+  ```
+
+* Создайте и активируйте виртуальное окружение
+  ```
+  python3 -m venv venv
+  ```
+
+  Если у вас Linux/macOS
+
+  ```
+    source venv/bin/activate
+  ```
+  
+  Если у вас windows
+
+  ```
+  source venv/scripts/activate
+  ```
+  
+* Установите зависимости из файла requirements.txt:
+  ```
+  python3 -m pip install --upgrade pip
+  ```
+
+  ```
+  pip install -r requirements.txt
+  ```
+
+* Перейдите в директорию с файлами проекта
+  ```
+  cd yatube
+  ```
+
+* Выполните миграции по следующей команде:
+  ```
+  python manage.py migrate
+  ```
+
+* Создайте суперпользователя
+  ```
+  python manage.py createsuperuser
+  ```
+  укажите имя пользователя, почту и пароль
+  
+* Запустите проект
+  ```
+  python manage.py runserver
+  ```
+  
+* Проект будет доступен по следующим адресам:
+  ```
+  http://127.0.0.1:8000/redoc/ - документация со всеми эндпоинтами
+  http://127.0.0.1:8000/admin/ - админ зона
+  ```
 
 ___
 
@@ -94,19 +160,16 @@ ___
 
 
 Для заполнения базы этими данными выполните следующие команды в терминале:
+
+* Если проект развернут в Docker
     ```
     docker-compose exec web python manage.py loaddata fixtures.json
     ```
-
----
-### Ссылки проекта<a name="url"></a>
+* Если проект развернут локально
     ```
-    http://51.250.101.39/api/v1/ - API сервис
-    http://51.250.101.39/admin/ - админ панель
-    http://51.250.101.39/redoc/ - документация, примеры запросов
+    cd api_yamdb
+    python manage.py loaddata fixtures.json
     ```
-
-API запросы можно протестировать через приложение Postman, которое можно скачать по ссылке: https://www.postman.com/downloads/
 
 ---
 ### Workflow<a name="workflow"></a>

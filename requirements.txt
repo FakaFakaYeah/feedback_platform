@@ -12,3 +12,4 @@ pytest-django==3.8.0
 pytest==6.2.4
 pytest-pythonpath==0.7.3
 six==1.16.0
+python-dotenv==0.21.1

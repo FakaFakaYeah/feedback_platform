@@ -9,7 +9,7 @@ services:
       - ./.env
 
   web:
-    image: fakafakayeah/api_yamdb:latest
+    build: ../
     restart: always
     volumes:
       - static_value:/app/static/
