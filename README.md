@@ -60,7 +60,7 @@ ___
   
 * Установите Docker по ссылке https://www.docker.com/products/docker-desktop
 
-* Перейдите в директорию с Docker-compose.yaml
+* Перейдите в директорию с docker-compose.yaml
     ```
     cd infra
     ```
