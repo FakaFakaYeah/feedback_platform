@@ -12,7 +12,7 @@
  <li><a href="#start_project">Как развернуть проект локально?</a></li>
  <li><a href="#load_data">Заполнение базы начальными данными</a></li>
  <li><a href="#workflow">Workflow</a></li>
- <li><a href="#author">Авторы проекта</a></li>
+ <li><a href="#author">Авторы проекта</a></li> 
 </ol>
 
 ---
