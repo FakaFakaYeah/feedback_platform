@@ -43,7 +43,14 @@ ___
     ```
     git clone https://github.com/FakaFakaYeah/feedback_platform.git
     ```
-    
+
+* Установите Docker по ссылке https://www.docker.com/products/docker-desktop
+
+* Перейдите в директорию с docker-compose.yaml
+    ```
+    cd infra
+    ```
+
 * Создайте .env файл и заполните его по шаблону
   ```
   USE_POSTGRESQL=True  # Установите True, чтобы в докере использовалась PostgreSQL
@@ -55,13 +62,6 @@ ___
   DB_HOST=    #название сервиса (контейнера)
   DB_PORT=    #порт для подключения к БД
   ```
-  
-* Установите Docker по ссылке https://www.docker.com/products/docker-desktop
-
-* Перейдите в директорию с docker-compose.yaml
-    ```
-    cd infra
-    ```
 
 * Выполните команду по разворачиванию docker-compose
     ```
